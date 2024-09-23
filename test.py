@@ -45,7 +45,7 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 
 def eval_psnr(loader, model, data_norm=None, eval_type=None, eval_bsize=None,
-              verbose=False):
+              verbose=False, save=False):
     model.eval()
     if data_norm is None:
         data_norm = {
@@ -98,14 +98,15 @@ def eval_psnr(loader, model, data_norm=None, eval_type=None, eval_bsize=None,
             pbar.set_description('val {} {:.4f}'.format(metric3, val_metric3.item()))
             pbar.set_description('val {} {:.4f}'.format(metric4, val_metric4.item()))
         
-        # for p in range(pred.shape[0]):
-        #     pil = tensor2PIL(torch.tensor(pred[p]*255, dtype=torch.uint8))
-        #     pil.save(f'tmp/{cnt}-{p}-pred.png')
-        #     pil = tensor2PIL(torch.tensor(batch['gt'][p]*255, dtype=torch.uint8))
-        #     pil.save(f'tmp/{cnt}-{p}-gt.png')
-        #     pil = img_reverse(torch.tensor(batch['inp'][p], dtype=torch.float32))
-        #     vutils.save_image(pil, f'tmp/{cnt}-{p}-fig.jpg')
-        #     cnt += 1
+        if save:
+            for p in range(pred.shape[0]):
+                pil = tensor2PIL(torch.tensor(pred[p]*255, dtype=torch.uint8))
+                pil.save(f'tmp/{cnt}-{p}-pred.png')
+                pil = tensor2PIL(torch.tensor(batch['gt'][p]*255, dtype=torch.uint8))
+                pil.save(f'tmp/{cnt}-{p}-gt.png')
+                pil = img_reverse(torch.tensor(batch['inp'][p], dtype=torch.float32))
+                vutils.save_image(pil, f'tmp/{cnt}-{p}-fig.jpg')
+                cnt += 1
 
     return val_metric1.item(), val_metric2.item(), val_metric3.item(), val_metric4.item()
 
@@ -116,6 +117,7 @@ if __name__ == '__main__':
     parser.add_argument('--model', default='./configs/cod-tssam-vit-h.yaml')
     parser.add_argument('--prompt', default='none')
     parser.add_argument("--local_rank", type=int, default=-1, help="")
+    parser.add_argument('--save', default='False')
     args = parser.parse_args()
 
     with open(args.config, 'r') as f:
@@ -134,7 +136,7 @@ if __name__ == '__main__':
                                                    data_norm=config.get('data_norm'),
                                                    eval_type=config.get('eval_type'),
                                                    eval_bsize=config.get('eval_bsize'),
-                                                   verbose=True)
+                                                   verbose=True, save=args.save)
     print('metric1: {:.4f}'.format(metric1))
     print('metric2: {:.4f}'.format(metric2))
     print('metric3: {:.4f}'.format(metric3))

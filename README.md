@@ -119,10 +119,10 @@ CUDA_VISIBLE_DEVICES=0,1,2,3 python -m torch.distributed.launch --nnodes 1 --npr
 
 ## Test
 ```bash
-CUDA_VISIBLE_DEVICES=0 python -m torch.distributed.launch --nnodes 1 --nproc_per_node 1 test.py --config [CONFIG_PATH] --model [CHECKPOINT_PATH]
+CUDA_VISIBLE_DEVICES=0 python -m torch.distributed.launch --nnodes 1 --nproc_per_node 1 test.py --config [CONFIG_PATH] --model [CHECKPOINT_PATH] --save True
 ```
 
-## Pre-trained Models
+## Weights
 https://drive.google.com/drive/folders/1dQJiWONDSTrUKCkDLktxaabzgim0OfsQ?usp=drive_link
 
 
