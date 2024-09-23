@@ -73,9 +73,9 @@ def eval_psnr(loader, model, data_norm=None, eval_type=None, eval_bsize=None,
 
     pbar = tqdm(loader, leave=False, desc='val')
 
-    # cnt = 0
-    # if not os.path.exists('./tmp'):
-    #     os.makedirs('./tmp')
+    cnt = 0
+    if not os.path.exists('./tmp'):
+        os.makedirs('./tmp')
         
     for batch in pbar:
         for k, v in batch.items():
