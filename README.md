@@ -138,6 +138,8 @@ If you find our work useful in your research, please consider citing:
   year={2024}
 }
 ```
+## Contact
+f you have any questions, please feel free to contact us via email `2110598@mail.nankai.edu.cn` or WeChat `ChenXu2230744290`.
 
 ## Acknowledgements
 The part of the code is derived from SAM-adapter   <a href='https://github.com/tianrun-chen/SAM-Adapter-PyTorch/'><img src='https://img.shields.io/badge/Project-Page-Green'></a>.
